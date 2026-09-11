@@ -16,7 +16,7 @@ const RPC_URL = "https://rpc.bohr.life";
 const EXPLORER_URL = "https://scan.bohr.life";
 
 // Replaced by contracts/scripts/deploy.ts after deployment.
-const CONTRACT_ADDRESS = "0xc58c540fdfb24ddf06a8860766a3cd41a8cb765a";
+const CONTRACT_ADDRESS = "0xd012b13bfa1bd505a3a066b16bd7162ed392c420";
 const TO_BE_DEPLOYED = CONTRACT_ADDRESS === "0x0000000000000000000000000000000000000000";
 
 const GAME_ABI = [
@@ -28,7 +28,8 @@ const GAME_ABI = [
       { internalType: "uint256", name: "highScore", type: "uint256" },
       { internalType: "uint256", name: "maxLevel", type: "uint256" },
       { internalType: "uint256", name: "gamesPlayed", type: "uint256" },
-      { internalType: "uint256", name: "lastPlayedAt", type: "uint256" }
+      { internalType: "uint256", name: "lastPlayedAt", type: "uint256" },
+      { internalType: "uint256", name: "totalPayout", type: "uint256" }
     ],
     stateMutability: "view",
     type: "function"
@@ -41,6 +42,27 @@ const GAME_ABI = [
     name: "submitScore",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [],
+    name: "treasuryBalance",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function"
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
+    name: "fund",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [{ internalType: "uint256", name: "level", type: "uint256" }],
+    name: "levelCaps",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
     type: "function"
   }
 ];
@@ -196,7 +218,8 @@ async function renderConnected() {
 
   const p = await fetchPlayer();
   if (p) {
-    const onChain = `ON-CHAIN | HIGH ${p[1].toString().padStart(1)} | LEVELS ${p[2].toString()} | GAMES ${p[3].toString()}`;
+    const payout = (Number(p[5]) / 1e6).toFixed(2);
+    const onChain = `ON-CHAIN | HIGH ${p[1].toString().padStart(1)} | LEVELS ${p[2].toString()} | GAMES ${p[3].toString()} | ${payout} tUSDT EARNED`;
     showStatus(`${shortAddr(connectedAccount)} on chain 968. ${onChain}`, true);
   } else {
     showStatus("Connected. Scores will be recorded on-chain when the game ends.", true);
@@ -221,7 +244,8 @@ async function submitScore(score, level) {
     });
     setSubmitStatus("Score submitted on-chain. Verifying...");
     await publicClient.waitForTransactionReceipt({ hash });
-    setSubmitStatus(`Score ${score.toLocaleString()} recorded on BOT Chain.`, `${EXPLORER_URL}/tx/${hash}`);
+    const payout = Math.min(score / 1000, 10); // 1 tUSDT per 1000 score, capped at 10
+    setSubmitStatus(`Score ${score.toLocaleString()} recorded. +${payout} tUSDT earned.`, `${EXPLORER_URL}/tx/${hash}`);
     renderConnected();
     return { hash, ok: true };
   } catch (e) {

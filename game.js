@@ -438,7 +438,7 @@ function showComboText(combo, x, y) {
 
 const CHARGE_MESSAGES = [
     'CHARGE!', 'LFG!', 'SENT!', 'FOR THE LOVE',
-    'JEETED!', 'CHARGE FORWARD', 'BULLISH', 'ANSEM WINS'
+    'JEETED!', 'CHARGE FORWARD', 'BULLISH', 'BOT WINS'
 ];
 let chargeMsgIndex = 0;
 
@@ -897,7 +897,7 @@ function updateStartScreenStats() {
             <span class="start-stat-value">${saveData.highScore.toLocaleString()}</span>
         </div>
         <div class="start-stat">
-            <span class="start-stat-label">$ANSEM TOTAL</span>
+            <span class="start-stat-label">tBOT TOTAL</span>
             <span class="start-stat-value">${saveData.totalTokens.toLocaleString()}</span>
         </div>
         <div class="start-stat">
@@ -983,7 +983,7 @@ function generateShareCard(mode) {
 
     sctx.font = '11px Courier New';
     sctx.fillStyle = '#00ff88';
-    sctx.fillText('$ANSEM COLLECTED', leftX, statY - 20);
+    sctx.fillText('tBOT COLLECTED', leftX, statY - 20);
     sctx.font = 'bold 28px Courier New';
     sctx.fillStyle = '#ffff00';
     sctx.fillText(tokens.toString(), leftX, statY + 15);
@@ -1008,7 +1008,7 @@ function generateShareCard(mode) {
 
     sctx.font = '12px Courier New';
     sctx.fillStyle = '#666';
-    sctx.fillText('CHARGE FORWARD NO MATTER WHAT  |  #BlackBullSmash  #ANSEM', W / 2, 360);
+    sctx.fillText('CHARGE FORWARD NO MATTER WHAT  |  #BlackBullSmash  #BOT', W / 2, 360);
 
     sctx.fillStyle = '#ff00ff44';
     for (let i = 0; i < 5; i++) {
@@ -1052,7 +1052,7 @@ function tweetShareCard() {
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             navigator.share({
                 title: 'Black Bull Smash',
-                text: `🐂 BLACK BULL SMASH 🐂\n\nScore: ${score.toLocaleString()}\n$ANSEM: ${tokens}\nLevel: ${currentLevel}\n\nCan you beat my score?`,
+                text: `🐂 BLACK BULL SMASH 🐂\n\nScore: ${score.toLocaleString()}\ntBOT: ${tokens}\nLevel: ${currentLevel}\n\nCan you beat my score?`,
                 files: [file]
             }).catch(() => {
                 tweetFallback();
@@ -1065,7 +1065,7 @@ function tweetShareCard() {
 
 function tweetFallback() {
     const text = encodeURIComponent(
-        `🐂 BLACK BULL SMASH 🐂\n\nScore: ${score.toLocaleString()}\n$ANSEM: ${tokens}\nLevel: ${currentLevel}\n\nCan you beat my score? #BlackBullSmash #ANSEM`
+        `🐂 BLACK BULL SMASH 🐂\n\nScore: ${score.toLocaleString()}\ntBOT: ${tokens}\nLevel: ${currentLevel}\n\nCan you beat my score? #BlackBullSmash #BOT`
     );
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
 }
@@ -1182,7 +1182,7 @@ function drawPriceChart() {
     ctx.fillStyle = 'rgba(153, 69, 255, 0.2)';
     ctx.textAlign = 'right';
     const price = (0.05 + Math.sin(time) * 0.02 + Math.sin(time * 2.3) * 0.01).toFixed(4);
-    ctx.fillText('$ANSEM: $' + price, chartW - 20, chartY + 15);
+    ctx.fillText('tBOT: $' + price, chartW - 20, chartY + 15);
 }
 
 function drawSlingBase() {
@@ -1455,7 +1455,7 @@ function drawTokens() {
         ctx.font = 'bold 9px Courier New';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText('SOL', x, y + 1);
+        ctx.fillText('BOT', x, y + 1);
 
         ctx.fillStyle = `rgba(0, 255, 136, ${0.2 + Math.sin(time * 2) * 0.1})`;
         ctx.beginPath();
