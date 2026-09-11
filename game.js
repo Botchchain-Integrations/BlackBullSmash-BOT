@@ -856,6 +856,9 @@ function showGameOver() {
         highScoreBanner.classList.add('hidden');
     }
     gameOverScreen.classList.add('active');
+    if (window.BlackBullWeb3 && score > 0) {
+        window.BlackBullWeb3.submitScore(score, currentLevel);
+    }
 }
 
 function showLevelComplete() {

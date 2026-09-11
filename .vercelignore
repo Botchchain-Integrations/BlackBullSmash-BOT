@@ -1,0 +1,7 @@
+contracts/
+data/
+.vercel/
+.env
+.env.*
+.DS_Store
+npm-debug.log*
