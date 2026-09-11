@@ -33,12 +33,16 @@ const publicClient = createPublicClient({
 const ARTIFACT_PATH = resolve(__dirname, "../artifacts/contracts/BlackBullGame.sol/BlackBullGame.json");
 const artifact = JSON.parse(readFileSync(ARTIFACT_PATH, "utf8"));
 
+const TUSDT_ADDRESS = (process.env.TUSDT_ADDRESS as `0x${string}`) || "0x75edC9335175Fc0552D51D48439F229c10420fe3";
+
 async function deploy() {
   console.log(`Deploying BlackBullGame from ${account.address}...`);
+  console.log(`tUSDT: ${TUSDT_ADDRESS}`);
 
   const hash = await wallet.deployContract({
     abi: artifact.abi,
     bytecode: artifact.bytecode as `0x${string}`,
+    args: [TUSDT_ADDRESS],
   });
 
   console.log(`Deploy tx: https://scan.bohr.life/tx/${hash}`);
