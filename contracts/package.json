@@ -1,0 +1,20 @@
+{
+  "name": "blackbullgame-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.ts --network botTestnet",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.8.6",
+    "@nomicfoundation/hardhat-toolbox": "hh2",
+    "dotenv": "^16.4.5",
+    "hardhat": "2.28.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "viem": "^2.51.0"
+  }
+}
