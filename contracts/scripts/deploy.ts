@@ -4,18 +4,18 @@ import { readFileSync, writeFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
 const BOT_CHAIN = {
-  id: 968,
-  name: "BOT Chain Testnet",
+  id: 677,
+  name: "BOT Chain",
   nativeCurrency: { name: "BOT", symbol: "BOT", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://rpc.bohr.life"] }
+    default: { http: ["https://rpc.botchain.ai"] }
   },
   blockExplorers: {
-    default: { name: "BOT Explorer", url: "https://scan.bohr.life" }
+    default: { name: "BOT Explorer", url: "https://scan.botchain.ai" }
   }
 } as const;
 
-const RPC_URL = "https://rpc.bohr.life";
+const RPC_URL = "https://rpc.botchain.ai";
 const KEY = (process.env.DEPLOYER_PRIVATE_KEY as `0x${string}`) || "";
 const account = privateKeyToAccount(KEY);
 
@@ -33,7 +33,7 @@ const publicClient = createPublicClient({
 const ARTIFACT_PATH = resolve(__dirname, "../artifacts/contracts/BlackBullGame.sol/BlackBullGame.json");
 const artifact = JSON.parse(readFileSync(ARTIFACT_PATH, "utf8"));
 
-const TUSDT_ADDRESS = (process.env.TUSDT_ADDRESS as `0x${string}`) || "0x75edC9335175Fc0552D51D48439F229c10420fe3";
+const TUSDT_ADDRESS = (process.env.TUSDT_ADDRESS as `0x${string}`) || "0xaBabc7Ddc03e501d190C676BF3d92ef0e6e87a3C";
 
 async function deploy() {
   console.log(`Deploying BlackBullGame from ${account.address}...`);
@@ -45,7 +45,7 @@ async function deploy() {
     args: [TUSDT_ADDRESS],
   });
 
-  console.log(`Deploy tx: https://scan.bohr.life/tx/${hash}`);
+  console.log(`Deploy tx: https://scan.botchain.ai/tx/${hash}`);
 
   // Poll for receipt (2s intervals, 60s max)
   let receipt = null;
@@ -65,7 +65,7 @@ async function deploy() {
   }
 
   console.log(`BlackBullGame deployed to: ${receipt.contractAddress}`);
-  console.log(`Explorer: https://scan.bohr.life/address/${receipt.contractAddress}`);
+  console.log(`Explorer: https://scan.botchain.ai/address/${receipt.contractAddress}`);
 
   // Smoke test: read getPlayer for deployer (should be zeroed out)
   const contract = getContract({

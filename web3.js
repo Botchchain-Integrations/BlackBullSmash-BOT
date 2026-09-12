@@ -1,22 +1,22 @@
 import { createPublicClient, createWalletClient, custom, http, defineChain } from "https://esm.sh/viem@2.51.0";
 
 const BOT_CHAIN = defineChain({
-  id: 968,
-  name: "BOT Chain Testnet",
+  id: 677,
+  name: "BOT Chain",
   nativeCurrency: { name: "BOT", symbol: "BOT", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://rpc.bohr.life"] }
+    default: { http: ["https://rpc.botchain.ai"] }
   },
   blockExplorers: {
-    default: { name: "BOT Explorer", url: "https://scan.bohr.life" }
+    default: { name: "BOT Explorer", url: "https://scan.botchain.ai" }
   }
 });
 
-const RPC_URL = "https://rpc.bohr.life";
-const EXPLORER_URL = "https://scan.bohr.life";
+const RPC_URL = "https://rpc.botchain.ai";
+const EXPLORER_URL = "https://scan.botchain.ai";
 
 // Replaced by contracts/scripts/deploy.ts after deployment.
-const CONTRACT_ADDRESS = "0xd012b13bfa1bd505a3a066b16bd7162ed392c420";
+const CONTRACT_ADDRESS = "0x84f7b4daca824185a8f5d2905e88f487dd4fb19b";
 const TO_BE_DEPLOYED = CONTRACT_ADDRESS === "0x0000000000000000000000000000000000000000";
 
 const GAME_ABI = [
@@ -157,12 +157,12 @@ async function ensureChain() {
     });
   }
   try {
-    await walletClient.switchChain({ id: 968 });
+    await walletClient.switchChain({ id: 677 });
   } catch (e) {
     await walletClient.addChain({
       chain: BOT_CHAIN
     });
-    await walletClient.switchChain({ id: 968 });
+    await walletClient.switchChain({ id: 677 });
   }
 }
 
@@ -183,7 +183,7 @@ async function connectWallet() {
   try {
     await ensureChain();
   } catch (e) {
-    showError("Could not switch to BOT Chain (968). Please switch in your wallet.");
+    showError("Could not switch to BOT Chain. Please switch in your wallet.");
   }
 
   connectedAccount = account;
@@ -220,7 +220,7 @@ async function renderConnected() {
   if (p) {
     const payout = (Number(p[5]) / 1e6).toFixed(2);
     const onChain = `ON-CHAIN | HIGH ${p[1].toString().padStart(1)} | LEVELS ${p[2].toString()} | GAMES ${p[3].toString()} | ${payout} tUSDT EARNED`;
-    showStatus(`${shortAddr(connectedAccount)} on chain 968. ${onChain}`, true);
+    showStatus(`${shortAddr(connectedAccount)} on chain 677. ${onChain}`, true);
   } else {
     showStatus("Connected. Scores will be recorded on-chain when the game ends.", true);
   }

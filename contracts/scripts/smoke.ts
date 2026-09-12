@@ -4,14 +4,14 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 const BOT_CHAIN = {
-  id: 968,
-  name: "BOT Chain Testnet",
+  id: 677,
+  name: "BOT Chain",
   nativeCurrency: { name: "BOT", symbol: "BOT", decimals: 18 },
-  rpcUrls: { default: { http: ["https://rpc.bohr.life"] } },
-  blockExplorers: { default: { name: "BOT Explorer", url: "https://scan.bohr.life" } }
+  rpcUrls: { default: { http: ["https://rpc.botchain.ai"] } },
+  blockExplorers: { default: { name: "BOT Explorer", url: "https://scan.botchain.ai" } }
 } as const;
 
-const RPC_URL = "https://rpc.bohr.life";
+const RPC_URL = "https://rpc.botchain.ai";
 const KEY = (process.env.DEPLOYER_PRIVATE_KEY as `0x${string}`) || "";
 const account = privateKeyToAccount(KEY);
 
@@ -20,7 +20,7 @@ const account = privateKeyToAccount(KEY);
 const TEST_KEY = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 const testAccount = privateKeyToAccount(TEST_KEY);
 
-const TUSDT = "0x75edC9335175Fc0552D51D48439F229c10420fe3";
+const TUSDT = "0xaBabc7Ddc03e501d190C676BF3d92ef0e6e87a3C";
 
 const deployed = JSON.parse(
   readFileSync(resolve(__dirname, "../../data/deployed-address.json"), "utf8")
@@ -53,7 +53,7 @@ async function main() {
       account
     });
     await publicClient.waitForTransactionReceipt({ hash: gasHash });
-    console.log(`Gas top-up tx: https://scan.bohr.life/tx/${gasHash}`);
+    console.log(`Gas top-up tx: https://scan.botchain.ai/tx/${gasHash}`);
   }
 
   const playerWallet = createWalletClient({ account: testAccount, chain: BOT_CHAIN, transport: http(RPC_URL) });
@@ -68,7 +68,7 @@ async function main() {
     account
   });
   await publicClient.waitForTransactionReceipt({ hash: approveHash });
-  console.log(`Approve tx: https://scan.bohr.life/tx/${approveHash}`);
+  console.log(`Approve tx: https://scan.botchain.ai/tx/${approveHash}`);
 
   const fundHash = await wallet.writeContract({
     address: ADDRESS,
@@ -78,7 +78,7 @@ async function main() {
     account
   });
   await publicClient.waitForTransactionReceipt({ hash: fundHash });
-  console.log(`Fund tx: https://scan.bohr.life/tx/${fundHash}`);
+  console.log(`Fund tx: https://scan.botchain.ai/tx/${fundHash}`);
   const treasury = await publicClient.readContract({
     address: ADDRESS, abi: artifact.abi, functionName: "treasuryBalance"
   });
@@ -100,7 +100,7 @@ async function main() {
     account: testAccount
   });
   const receipt = await publicClient.waitForTransactionReceipt({ hash });
-  console.log(`submitScore tx: https://scan.bohr.life/tx/${hash}`);
+  console.log(`submitScore tx: https://scan.botchain.ai/tx/${hash}`);
 
   const after = await publicClient.readContract({
     address: TUSDT, abi: ERC20_ABI, functionName: "balanceOf", args: [testAccount.address]
